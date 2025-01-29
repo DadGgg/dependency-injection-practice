@@ -4,7 +4,11 @@ import { injectable } from "inversify";
 
 @injectable()
 export class Fork implements IUtensil {
-    scoop(food: Food) {
-        return food.takeHalf();
+    scoop(food: Food): Food {
+        const half = food.takeHalf();
+        return half;
     }
+    // scoop(food: Food) {
+    //     return food.takeHalf();
+    // }
 }

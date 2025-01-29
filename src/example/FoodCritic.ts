@@ -2,21 +2,18 @@ import { inject, injectable } from "inversify";
 import { Food } from "./Food";
 import { IUtensil } from "./IUtensil";
 import { TYPES } from "../TYPES";
-
-export interface IHungryDiner {
-    swap(utensil: IUtensil): IUtensil;
-    eatOne(food: Food): Food;
-    eat(meal: Food[]): Food[];
-    getSatisfaction(): number; 
-}
+import { IHungryDiner } from "./IHungryDiner";
+import { IPlateware } from "./IPlateware";
 
 @injectable()
 export class FoodCritic implements IHungryDiner {
     utensil: IUtensil;
+    plate: IPlateware;
     fullness: number = 0;
     complaints: number = 0;
-    constructor(@inject(TYPES.IUtensil) utensil: IUtensil) {
+    constructor(@inject(TYPES.IUtensil) utensil: IUtensil)  {
         this.utensil = utensil;
+        //this.utensil = new Spoon();
     }
 
     swap(utensil: IUtensil): IUtensil {
@@ -27,7 +24,7 @@ export class FoodCritic implements IHungryDiner {
     eatOne(food: Food): Food {
         if (food.isFancy) {
             const foodEaten = this.utensil.scoop(food);
-            this.fullness += this.fullness + foodEaten.amount;
+            this.fullness += this.fullness + foodEaten.amount; // += ?
         } else {
             this.complaints++;
         }
@@ -38,9 +35,9 @@ export class FoodCritic implements IHungryDiner {
         for (let course of meal) {
             if (course.isFancy) {
                 const foodEaten = this.utensil.scoop(course);
-                this.fullness += this.fullness + foodEaten.amount;
+                this.fullness += this.fullness + foodEaten.amount; // += what does it mean?
             } else {
-                this.complaints++;
+                this.complaints++; // adds 1 
             }
         }
         return meal;
